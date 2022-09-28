@@ -17,7 +17,6 @@ class TabCartPage extends StatefulWidget {
 
 class _TabCartPageState extends State<TabCartPage> {
   final _globalFunction = GlobalFunction();
-  final _reusableWidget = ReusableWidget();
 
   double _totalPrice = 0;
 

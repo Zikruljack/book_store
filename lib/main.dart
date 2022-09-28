@@ -1,8 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:book_store/pages/auth/login.dart';
+import 'package:book_store/pages/home/homepage.dart';
+import 'package:book_store/providers/user_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+    ),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,11 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const LoginPage(),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? const HomePage()
+          : const LoginPage(),
     );
   }
 }

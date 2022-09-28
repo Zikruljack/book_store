@@ -1,3 +1,4 @@
+import 'package:book_store/data/services/auth_service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:book_store/pages/auth/login.dart';
@@ -11,6 +12,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final AuthService authService = AuthService();
   late TextEditingController _fullNameController;
   late TextEditingController _userNameController;
   late TextEditingController _emailController;
@@ -21,7 +23,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool _obsecureText = true;
   IconData _iconVisible = Icons.visibility_off;
-  final IconData _iconPerson = Icons.person;
 
   // RegisterModel register = RegisterModel();
 
@@ -36,6 +37,15 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+  void register() {
+    authService.signUpUser(
+        fullName: _fullNameController.text,
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        phoneNumber: _phoneNumberController.text);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,7 +54,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController = TextEditingController();
     _fullNameController = TextEditingController();
     _userNameController = TextEditingController();
-    _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _phoneNumberController = TextEditingController();
   }
@@ -172,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _passwordController,
               obscureText: _obsecureText,
-              style: TextStyle(color: AppConstants.backgroundColor),
+              style: TextStyle(color: AppConstants.headingColor),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 filled: true,
@@ -232,7 +241,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   )),
                 ),
                 //TODO: implement Route to dashboard
-                onPressed: () {},
+                onPressed: () {
+                  if (_formKeyRegister.currentState!.validate()) {
+                    register();
+                  }
+                  print('pressed');
+                },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 5),
                   child: Text(

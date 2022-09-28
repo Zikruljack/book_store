@@ -161,46 +161,42 @@ class ReusableWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) =>
-                                  AppConstants.primaryColor,
-                            ),
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            )),
+                    TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) =>
+                                AppConstants.primaryColor,
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-
-                            if (backToPreviousPageStack > 0) {
-                              FocusScope.of(context)
-                                  .unfocus(); // hide keyboard when press button
-                              for (int i = 1;
-                                  i <= backToPreviousPageStack;
-                                  i++) {
-                                Navigator.pop(context);
-                              }
-                            }
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5.0),
-                            child: Text(
-                              'OK',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
+                          overlayColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          shape:
+                              MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
                           )),
-                    )
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+
+                          if (backToPreviousPageStack > 0) {
+                            FocusScope.of(context)
+                                .unfocus(); // hide keyboard when press button
+                            for (int i = 1; i <= backToPreviousPageStack; i++) {
+                              Navigator.pop(context);
+                            }
+                          }
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 5.0),
+                          child: Text(
+                            'OK',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ))
                   ],
                 ),
               ),

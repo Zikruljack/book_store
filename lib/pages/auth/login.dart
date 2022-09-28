@@ -1,11 +1,12 @@
+import 'package:book_store/data/services/auth_service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:book_store/data/models/login_model.dart';
 import 'package:book_store/pages/auth/register.dart';
-import 'package:book_store/pages/home/homepage.dart';
 import 'package:book_store/utils/const.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String routeName = '/login';
   const LoginPage({super.key});
 
   @override
@@ -13,6 +14,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthService authService = AuthService();
+
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late GlobalKey<FormState> _formKeyLogin;
@@ -20,10 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   IconData _iconVisible = Icons.visibility_off;
 
   LoginModel loginBody = LoginModel();
-
-  final Color _mainColor = const Color(0xFF07ac12);
-  final Color _color1 = const Color(0xFF515151);
-  final Color _color3 = const Color(0xFFaaaaaa);
 
   void _toggleObscureText() {
     setState(() {
@@ -44,6 +43,18 @@ class _LoginPageState extends State<LoginPage> {
 
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    // _emailController.text =
+    //     Provider.of<AuthProvider>(context, listen: false).getUserEmail();
+    // _passwordController.text =
+    //     Provider.of<AuthProvider>(context, listen: false).getUserPassword();
+  }
+
+  void login() {
+    authService.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   @override
@@ -112,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               controller: _passwordController,
               obscureText: _obscureText,
-              style: TextStyle(color: _color1),
+              style: TextStyle(color: AppConstants.headingColor),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 filled: true,
@@ -145,11 +156,15 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(12),
                   )),
                 ),
-
-                //TODO: implement Route to dashboard
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const HomePage()));
+                  authService.signInUser(
+                    context: context,
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                  // Navigator.of(context).push(
+                  //     MaterialPageRoute(builder: (_) => const HomePage()));
+                  print('pressed');
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 5),
@@ -165,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
             Center(
               child: Text(
                 'or Login with',
-                style: TextStyle(fontSize: 13, color: _color3),
+                style:
+                    TextStyle(fontSize: 13, color: AppConstants.headingColor),
               ),
             ),
             const SizedBox(

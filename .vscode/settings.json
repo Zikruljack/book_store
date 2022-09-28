@@ -1,0 +1,23 @@
+{
+  "files.exclude": {
+    "README.md": true,
+    ".dart_tool": true,
+    ".flutter-plugins": true,
+    ".flutter-plugins-dependencies": true,
+    ".git": true,
+    ".gitignore": true,
+    ".idea": true,
+    ".metadata": true,
+    ".vscode": true,
+    "book_store.iml": true,
+    "build": true,
+    "ios": true,
+    "linux": true,
+    "macos": true,
+    "pubspec.lock": true,
+    "test": true,
+    "web": true,
+    "windows": true,
+    "analysis_options.yaml": true
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:book_store/pages/detail_product/detail_product.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import "package:flutter/material.dart";
@@ -335,7 +336,18 @@ class _TabHomePageState extends State<TabHomePage>
       color: AppConstants.backgroundColor,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {}, // TODO create link to ProductDetails
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(
+                      name: recomendedProductData[index].name,
+                      image: recomendedProductData[index].image,
+                      price: recomendedProductData[index].price,
+                      rating: recomendedProductData[index].rating,
+                      review: recomendedProductData[index].review,
+                      sale: recomendedProductData[index].sale)));
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
