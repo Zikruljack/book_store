@@ -1,4 +1,5 @@
 import 'package:book_store/data/services/auth_service.dart';
+import 'package:book_store/utils/global_function.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:book_store/pages/auth/login.dart';
@@ -103,6 +104,12 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _fullNameController,
               keyboardType: TextInputType.name,
+              validator: ((value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please Input Name';
+                }
+                return null;
+              }),
               style: TextStyle(color: AppConstants.headingColor),
               decoration: InputDecoration(
                 filled: true,
@@ -127,33 +134,8 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 25,
             ),
             TextFormField(
-              controller: _userNameController,
-              keyboardType: TextInputType.text,
-              style: TextStyle(color: AppConstants.headingColor),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: AppConstants.backgroundColor,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppConstants.primaryColor)),
-                hoverColor: const Color(0xFF1BBA85),
-                suffixIcon: Icon(
-                  Icons.person,
-                  color: Colors.grey[400],
-                  size: 20,
-                ),
-                labelText: 'Username',
-                labelStyle: TextStyle(color: AppConstants.bodyColor),
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            TextFormField(
               controller: _emailController,
+              validator: ((value) => GlobalFunction().validateEmail(value!)),
               keyboardType: TextInputType.emailAddress,
               style: TextStyle(color: AppConstants.headingColor),
               decoration: InputDecoration(
@@ -181,6 +163,12 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _passwordController,
               obscureText: _obsecureText,
+              validator: ((value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please Input Password';
+                }
+                return null;
+              }),
               style: TextStyle(color: AppConstants.headingColor),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -207,6 +195,12 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _phoneNumberController,
               keyboardType: TextInputType.phone,
+              validator: ((value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please Input Phone Number';
+                }
+                return null;
+              }),
               style: TextStyle(color: AppConstants.headingColor),
               decoration: InputDecoration(
                 filled: true,
@@ -223,7 +217,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: Colors.grey[400],
                   size: 20,
                 ),
-                labelText: 'Contact Number',
+                labelText: 'Phone Number',
                 labelStyle: TextStyle(color: AppConstants.bodyColor),
               ),
             ),

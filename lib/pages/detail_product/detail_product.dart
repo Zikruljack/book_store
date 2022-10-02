@@ -39,20 +39,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int _currentImageSlider = 0;
 
   // size data
-  final List<String> _sizeList = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-  int _sizeIndex = 0;
-
-  // color data
-  final List<String> _colorList = [
-    'Red',
-    'Black',
-    'Green',
-    'White',
-    'Blue',
-    'Yellow',
-    'Pink'
-  ];
-  int _colorIndex = 0;
 
   // wishlist
   bool _isLove = false;
@@ -156,7 +142,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   children: [
                     _createProductSlider(),
                     _createProductPriceTitleEtc(),
-                    _createProductVariant(),
                     _createDeliveryEstimated(),
                     _createProductInformation(),
                     _createProductDescription(),
@@ -404,118 +389,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _createProductVariant() {
-    return Container(
-        margin: const EdgeInsets.only(top: 12),
-        padding: const EdgeInsets.all(16),
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Variant',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppConstants.headingColor,
-                )),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                Text('Size : ',
-                    style:
-                        TextStyle(color: AppConstants.bodyColor, fontSize: 14)),
-                Text(_sizeList[_sizeIndex],
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-            Wrap(
-              children: List.generate(_sizeList.length, (index) {
-                return radioSize(_sizeList[index], index);
-              }),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                Text('Color : ',
-                    style:
-                        TextStyle(color: AppConstants.bodyColor, fontSize: 14)),
-                Text(_colorList[_colorIndex],
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-            Wrap(
-              children: List.generate(_colorList.length, (index) {
-                return radioColor(_colorList[index], index);
-              }),
-            ),
-          ],
-        ));
-  }
-
-  Widget radioSize(String txt, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _sizeIndex = index;
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-        margin: const EdgeInsets.only(right: 8, top: 8),
-        decoration: BoxDecoration(
-            color:
-                _sizeIndex == index ? AppConstants.primaryColor : Colors.white,
-            border: Border.all(
-                width: 1,
-                color: _sizeIndex == index
-                    ? AppConstants.primaryColor
-                    : Colors.grey[300]!),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(10) //         <--- border radius here
-                )),
-        child: Text(txt,
-            style: TextStyle(
-                color: _sizeIndex == index
-                    ? Colors.white
-                    : AppConstants.headingColor)),
-      ),
-    );
-  }
-
-  Widget radioColor(String txt, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _colorIndex = index;
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-        margin: const EdgeInsets.only(right: 8, top: 8),
-        decoration: BoxDecoration(
-            color:
-                _colorIndex == index ? AppConstants.primaryColor : Colors.white,
-            border: Border.all(
-                width: 1,
-                color: _colorIndex == index
-                    ? AppConstants.primaryColor
-                    : Colors.grey[300]!),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(10) //         <--- border radius here
-                )),
-        child: Text(txt,
-            style: TextStyle(
-                color: _colorIndex == index
-                    ? Colors.white
-                    : AppConstants.headingColor)),
       ),
     );
   }

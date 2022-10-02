@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:book_store/data/models/user_model.dart';
@@ -7,6 +9,7 @@ import 'package:book_store/pages/home/homepage.dart';
 import 'package:book_store/providers/user_provider.dart';
 import 'package:book_store/utils/const.dart';
 import 'package:book_store/utils/global_function.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -27,14 +30,15 @@ class AuthService {
         email: email,
         address: '',
         token: '',
-        // cart: [],
+        cart: [],
       );
       http.Response res = await http.post(
-          Uri.parse('http://192.168.1.4:3000/api/users/register'),
+          Uri.parse('${StringConstants.baseUrl}/users/register'),
           body: user.toJson(),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          });
+            'Content-Type': 'application/json; charset=UTF-8',
+            'charset': 'utf-8'
+          }).timeout(const Duration(seconds: 5));
       print(res.statusCode);
       if (res.statusCode == 201) {
         Navigator.of(context)
@@ -66,7 +70,7 @@ class AuthService {
   }) async {
     try {
       http.Response res = await http.post(
-        Uri.parse('http://192.168.1.4:3000/api/users/login'),
+        Uri.parse('${StringConstants.baseUrl}/users/login'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -74,27 +78,25 @@ class AuthService {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
+          // 'Charset': 'utf-8'
         },
-      );
-
+      ).timeout(const Duration(seconds: 5));
+      print(res.statusCode);
+      print(res.body);
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
-          // SharedPreferences prefs = await SharedPreferences.getInstance();
-
+          SharedPreferences prefs = await SharedPreferences.getInstance();
           // ignore: use_build_context_synchronously
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
-
-          // await prefs.setString('auth', jsonDecode(res.body)['token']);
+          await prefs.setString('auth', jsonDecode(res.body)['access_token']);
 
           // ignore: use_build_context_synchronously
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => const HomePage()));
         },
       );
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (_) => const HomePage()));
     } catch (e) {
       GlobalFunction().showSnackBar(context, e.toString());
     }
@@ -105,37 +107,37 @@ class AuthService {
   ) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('x-auth-token');
+      String? token = prefs.getString('auth');
 
       if (token == null) {
-        prefs.setString('x-auth-token', '');
+        prefs.setString('auth', '');
       }
 
       var tokenRes = await http.post(
-        Uri.parse('${StringConstants.baseUrl}/tokenIsValid'),
+        Uri.parse('${StringConstants.baseUrl}/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': token!
+          'Auth': token!,
+          'Charset': 'utf-8'
         },
-      );
+      ).timeout(const Duration(seconds: 5));
 
       var response = jsonDecode(tokenRes.body);
 
       if (response == true) {
         http.Response userRes = await http.get(
-          Uri.parse('${StringConstants.baseUrl}/'),
+          Uri.parse('${StringConstants.baseUrl}/users'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': token
+            'auth': token
           },
         );
-
         // ignore: use_build_context_synchronously
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(userRes.body);
       }
     } catch (e) {
-      GlobalFunction().showSnackBar(context, e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
     }
   }
 }

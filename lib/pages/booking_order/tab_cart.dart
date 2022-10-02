@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:book_store/pages/components/reusable_widget.dart';
 import 'package:book_store/utils/const.dart';
 import 'package:book_store/utils/global_function.dart';
 
@@ -18,12 +17,14 @@ class TabCartPage extends StatefulWidget {
 class _TabCartPageState extends State<TabCartPage> {
   final _globalFunction = GlobalFunction();
 
+  ShoppingCartModel cartModel = [] as ShoppingCartModel;
+
   double _totalPrice = 0;
 
   @override
   void initState() {
     // TODO: implement initState
-    _countTotalPrice();
+    // _countTotalPrice();
     super.initState();
   }
 
@@ -35,8 +36,8 @@ class _TabCartPageState extends State<TabCartPage> {
 
   void _countTotalPrice() {
     _totalPrice = 0;
-    for (int i = 0; i < shoppingCartData.length; i++) {
-      _totalPrice += shoppingCartData[i].price * shoppingCartData[i].qty;
+    for (int i = 0; i < cartModel.toMap().length; i++) {
+      _totalPrice += cartModel.toMap()[i].price * cartModel.toMap()[i].qty;
     }
   }
 
@@ -68,7 +69,7 @@ class _TabCartPageState extends State<TabCartPage> {
             padding: const EdgeInsets.all(16),
             color: Colors.white,
             child: Column(
-              children: List.generate(shoppingCartData.length, (index) {
+              children: List.generate(cartModel.toMap().length, (index) {
                 return _buildItem(index, boxImageSize);
               }),
             ),
@@ -121,7 +122,7 @@ class _TabCartPageState extends State<TabCartPage> {
               //     context,
               //     MaterialPageRoute(
               //         builder: (context) =>
-              //             DeliveryPage(shoppingCartData: shoppingCartData)));
+              //             DeliveryPage( cartModel.toMap():  cartModel.toMap())));
             },
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -139,7 +140,7 @@ class _TabCartPageState extends State<TabCartPage> {
   }
 
   Column _buildItem(index, boxImageSize) {
-    int quantity = shoppingCartData[index].qty;
+    int quantity = cartModel.toMap()[index].qty;
     return Column(
       children: [
         Row(
@@ -152,9 +153,9 @@ class _TabCartPageState extends State<TabCartPage> {
                 //     context,
                 //     MaterialPageRoute(
                 //         builder: (context) => ProductDetailPage(
-                //             name: shoppingCartData[index].name,
-                //             image: shoppingCartData[index].image,
-                //             price: shoppingCartData[index].price,
+                //             name:  cartModel.toMap()[index].name,
+                //             image:  cartModel.toMap()[index].image,
+                //             price:  cartModel.toMap()[index].price,
                 //             rating: 4,
                 //             review: 23,
                 //             sale: 36)));
@@ -164,7 +165,7 @@ class _TabCartPageState extends State<TabCartPage> {
                   child: buildCacheNetworkImage(
                       width: boxImageSize,
                       height: boxImageSize,
-                      url: shoppingCartData[index].image)),
+                      url: cartModel.toMap()[index].image)),
             ),
             const SizedBox(
               width: 10,
@@ -179,15 +180,15 @@ class _TabCartPageState extends State<TabCartPage> {
                       //       context,
                       //       MaterialPageRoute(
                       //           builder: (context) => ProductDetailPage(
-                      //               name: shoppingCartData[index].name,
-                      //               image: shoppingCartData[index].image,
-                      //               price: shoppingCartData[index].price,
+                      //               name:  cartModel.toMap()[index].name,
+                      //               image:  cartModel.toMap()[index].image,
+                      //               price:  cartModel.toMap()[index].price,
                       //               rating: 4,
                       //               review: 23,
                       //               sale: 36)));
                     },
                     child: Text(
-                      shoppingCartData[index].name,
+                      cartModel.toMap()[index].name,
                       style: TextStyle(
                           fontSize: 14, color: AppConstants.bodyColor),
                       maxLines: 3,
@@ -197,7 +198,7 @@ class _TabCartPageState extends State<TabCartPage> {
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     child: Text(
-                        '\$ ${_globalFunction.removeDecimalZeroFormat(shoppingCartData[index].price)}',
+                        '\$ ${_globalFunction.removeDecimalZeroFormat(cartModel.toMap()[index].price)}',
                         style: const TextStyle(
                             fontSize: 13, fontWeight: FontWeight.bold)),
                   ),
@@ -229,7 +230,7 @@ class _TabCartPageState extends State<TabCartPage> {
                               onTap: () {
                                 setState(() {
                                   quantity--;
-                                  shoppingCartData[index].setQty(quantity);
+                                  cartModel.toMap()[index].setQty(quantity);
                                   _countTotalPrice();
                                 });
                               },
@@ -251,7 +252,7 @@ class _TabCartPageState extends State<TabCartPage> {
                               onTap: () {
                                 setState(() {
                                   quantity++;
-                                  shoppingCartData[index].setQty(quantity);
+                                  cartModel.toMap()[index].setQty(quantity);
                                   _countTotalPrice();
                                 });
                               },
@@ -275,7 +276,7 @@ class _TabCartPageState extends State<TabCartPage> {
             )
           ],
         ),
-        (index == shoppingCartData.length - 1)
+        (index == cartModel.toMap().length - 1)
             ? Wrap()
             : Divider(
                 height: 32,
@@ -295,7 +296,7 @@ class _TabCartPageState extends State<TabCartPage> {
     Widget continueButton = TextButton(
         onPressed: () {
           setState(() {
-            shoppingCartData.removeAt(index);
+            cartModel.toMap().remove(index);
           });
           _countTotalPrice();
           Navigator.pop(context);

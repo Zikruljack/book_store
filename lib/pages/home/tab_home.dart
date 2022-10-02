@@ -1,5 +1,5 @@
 import 'package:book_store/pages/detail_product/detail_product.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:book_store/pages/product_category/product_category.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
@@ -26,7 +26,6 @@ class _TabHomePageState extends State<TabHomePage>
   int _currentImageSlider = 0;
 
   Color _topIconColor = Colors.white;
-  Color _topSearchColor = AppConstants.backgroundColor;
   late ScrollController _scrollController;
   late AnimationController _topColorAnimationController;
   late Animation _appBarColor;
@@ -66,13 +65,11 @@ class _TabHomePageState extends State<TabHomePage>
             _scrollController.offset > (150 - kToolbarHeight)) {
           if (_topIconColor != AppConstants.backgroundColor) {
             _topIconColor = AppConstants.backgroundColor;
-            _topSearchColor = Colors.grey[100]!;
             _appBarSystemOverlayStyle = SystemUiOverlayStyle.dark;
           }
         } else {
           if (_topIconColor != Colors.white) {
             _topIconColor = Colors.white;
-            _topSearchColor = Colors.white;
             _appBarSystemOverlayStyle = SystemUiOverlayStyle.light;
           }
         }
@@ -94,13 +91,12 @@ class _TabHomePageState extends State<TabHomePage>
               slivers: [
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    _createHomeBannerSlider(),
+                    const SizedBox(
+                      height: 60,
+                    ),
                     Container(
                       margin: const EdgeInsets.only(
-                        top: 16,
-                        left: 16,
-                        right: 16,
-                      ),
+                          top: 16, left: 16, right: 16, bottom: 16),
                       child: const Text(
                         'Category',
                         style: TextStyle(
@@ -238,7 +234,7 @@ class _TabHomePageState extends State<TabHomePage>
             items: homeBannerData
                 .map((item) => Container(
                       child: buildCacheNetworkImage(
-                          width: 0, height: 0, url: item.image),
+                          width: 10, height: 10, url: item.image),
                     ))
                 .toList(),
             options: CarouselOptions(
@@ -289,22 +285,23 @@ class _TabHomePageState extends State<TabHomePage>
       children: List.generate(categoryData.length, (index) {
         return GestureDetector(
           onTap: () {
-            //TODO: implement Route to ProductCategoryPage
-
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ProductCategoryPage(
-            //             categoryId: categoryData[index].id,
-            //             categoryName: categoryData[index].name)));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductCategoryPage(
+                  categoryId: categoryData[index].id,
+                  categoryName: categoryData[index].name,
+                ),
+              ),
+            );
           },
           child: Column(
             children: [
-              CachedNetworkImage(
-                imageUrl: categoryData[index].image,
+              buildCacheNetworkImage(
+                url: categoryData[index].image,
                 width: 60,
                 height: 60,
-                color: Colors.transparent,
+                // color: Colors.transparent,
               ),
               Flexible(
                 child: Container(

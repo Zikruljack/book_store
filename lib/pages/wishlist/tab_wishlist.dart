@@ -26,6 +26,8 @@ class _WishlistPageState extends State<WishlistPage>
 
   TextEditingController _etSearch = TextEditingController();
 
+  WishlistModel wishlistModel = [] as WishlistModel;
+
   // keep the state to do not refresh when switch navbar
   @override
   bool get wantKeepAlive => true;
@@ -107,11 +109,11 @@ class _WishlistPageState extends State<WishlistPage>
         ),
         body: AnimatedList(
           key: _listKey,
-          initialItemCount: wishlistData.length,
+          initialItemCount: wishlistModel.toMap().length,
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index, animation) {
             return _buildWishlistCard(
-                wishlistData[index], boxImageSize, animation, index);
+                wishlistModel.toMap()[index], boxImageSize, animation, index);
           },
         ));
   }
@@ -178,39 +180,6 @@ class _WishlistPageState extends State<WishlistPage>
                                   style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold)),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.location_on,
-                                      color: AppConstants.backgroundColor,
-                                      size: 12),
-                                  Text(
-                                    ' ${wishlistData.location}',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: AppConstants.backgroundColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Row(
-                                children: [
-                                  _reusableWidget.createRatingBar(
-                                      rating: wishlistData.rating, size: 12),
-                                  Text(
-                                    '(${wishlistData.review})',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: AppConstants.backgroundColor,
-                                    ),
-                                  )
-                                ],
-                              ),
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 5),
@@ -337,7 +306,8 @@ class _WishlistPageState extends State<WishlistPage>
     Widget continueButton = TextButton(
       onPressed: () {
         int removeIndex = index;
-        var removedItem = wishlistData.removeAt(removeIndex);
+        // var removedItem = wishlistData.removeAt(removeIndex);
+        var removedItem = wishlistModel.toMap().remove(removeIndex);
         // This builder is just so that the animation has something
         // to work with before it disappears from view since the original
         // has already been deleted.

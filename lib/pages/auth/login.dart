@@ -1,7 +1,7 @@
 import 'package:book_store/data/services/auth_service.dart';
+import 'package:book_store/utils/global_function.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:book_store/data/models/login_model.dart';
 import 'package:book_store/pages/auth/register.dart';
 import 'package:book_store/utils/const.dart';
 
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
   IconData _iconVisible = Icons.visibility_off;
 
-  LoginModel loginBody = LoginModel();
+  // LoginModel loginBody = LoginModel();
 
   void _toggleObscureText() {
     setState(() {
@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             TextFormField(
               controller: _emailController,
+              validator: ((value) => GlobalFunction().validateEmail(value!)),
               keyboardType: TextInputType.emailAddress,
               style: TextStyle(color: AppConstants.headingColor),
               decoration: InputDecoration(
@@ -123,6 +124,12 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               controller: _passwordController,
               obscureText: _obscureText,
+              validator: ((value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please Input Password';
+                }
+                return null;
+              }),
               style: TextStyle(color: AppConstants.headingColor),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -157,11 +164,9 @@ class _LoginPageState extends State<LoginPage> {
                   )),
                 ),
                 onPressed: () {
-                  authService.signInUser(
-                    context: context,
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  );
+                  if (_formKeyLogin.currentState!.validate()) {
+                    login();
+                  }
                   // Navigator.of(context).push(
                   //     MaterialPageRoute(builder: (_) => const HomePage()));
                   print('pressed');

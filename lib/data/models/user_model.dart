@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:book_store/data/models/cart_model.dart';
+
 class User {
   final String id;
   final String name;
@@ -8,7 +10,7 @@ class User {
   final String address;
 
   final String token;
-  // final List<dynamic> cart;
+  final List<ShoppingCartModel>? cart;
 
   User({
     required this.id,
@@ -17,7 +19,7 @@ class User {
     required this.password,
     required this.address,
     required this.token,
-    // required this.cart,
+    this.cart,
   });
 
   Map<String, dynamic> toMap() {
@@ -40,11 +42,11 @@ class User {
       password: map['password'] ?? '',
       address: map['address'] ?? '',
       token: map['token'] ?? '',
-      // cart: List<Map<String, dynamic>>.from(
-      //   map['cart']?.map(
-      //     (x) => Map<String, dynamic>.from(x),
-      //   ),
-      // ),
+      cart: List<ShoppingCartModel>.from(
+        map['cart']?.map(
+          (x) => Map<String, dynamic>.from(x),
+        ),
+      ),
     );
   }
 
@@ -59,7 +61,7 @@ class User {
     String? password,
     String? address,
     String? token,
-    // List<dynamic>? cart,
+    List<ShoppingCartModel<dynamic>>? cart,
   }) {
     return User(
       id: id ?? this.id,
@@ -68,7 +70,7 @@ class User {
       password: password ?? this.password,
       address: address ?? this.address,
       token: token ?? this.token,
-      // cart: cart ?? this.cart,
+      cart: cart ?? this.cart,
     );
   }
 }
