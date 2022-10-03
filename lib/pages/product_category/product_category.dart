@@ -1,4 +1,5 @@
 import 'package:book_store/data/models/category_all_product.dart';
+import 'package:book_store/data/models/category_model.dart';
 import 'package:book_store/pages/detail_product/detail_product.dart';
 import 'package:book_store/utils/cache_image_network.dart';
 import 'package:book_store/utils/const.dart';
@@ -24,6 +25,10 @@ class ProductCategoryPage extends StatefulWidget {
 class _ProductCategoryPageState extends State<ProductCategoryPage> {
   final _globalFunction = GlobalFunction();
 
+  final ScrollController scrollController = ScrollController();
+
+  int page = 1;
+
   List<CategoryAllProductModel> categoryAllProductData = [];
 
   @override
@@ -38,24 +43,6 @@ class _ProductCategoryPageState extends State<ProductCategoryPage> {
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
-              // Container(
-              //   margin: const EdgeInsets.all(20),
-              //   child: const Text(
-              //     'New Product',
-              //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              //   ),
-              // ),
-              // Container(
-              //   margin: const EdgeInsets.only(top: 8),
-              //   height: MediaQuery.of(context).size.width / 3 * 1.90,
-              //   child: ListView.builder(
-              //     padding: const EdgeInsets.only(left: 12, right: 12),
-              //     // itemCount: categoryNewProduct.length, //TODO: add Data
-              //     itemBuilder: ((context, index) {
-              //       return Container(); //TODO: add list View recenly Publish
-              //     }),
-              //   ),
-              // ),
               Container(
                 margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
                 child: const Text(

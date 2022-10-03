@@ -10,7 +10,7 @@ class AppConstants {
 
 class StringConstants {
   //uri
-  static const String baseUrl = 'http://192.168.1.3:3000/api';
+  static const String baseUrl = 'http://192.168.1.4:3000/api';
   static const String loginUri = '/users/login';
   static const String socialLoginUri = '';
   static const String registrationUri = '/users/register';

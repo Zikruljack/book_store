@@ -44,8 +44,9 @@ class User {
       token: map['token'] ?? '',
       cart: List<ShoppingCartModel>.from(
         map['cart']?.map(
-          (x) => Map<String, dynamic>.from(x),
-        ),
+              (x) => Map<String, dynamic>.from(x),
+            ) ??
+            [],
       ),
     );
   }

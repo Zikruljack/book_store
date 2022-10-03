@@ -4,7 +4,6 @@ import 'package:book_store/data/models/user_model.dart';
 
 class ShoppingCartModel<List> {
   late int id;
-  late String name;
   late DateTime? paidDate;
   late String image;
   late double price;
@@ -15,7 +14,6 @@ class ShoppingCartModel<List> {
 
   ShoppingCartModel({
     required this.id,
-    required this.name,
     this.paidDate,
     required this.image,
     required this.price,
@@ -36,7 +34,6 @@ class ShoppingCartModel<List> {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
       'paidDate': paidDate,
       'image': image,
       'price': price,
@@ -50,7 +47,6 @@ class ShoppingCartModel<List> {
   factory ShoppingCartModel.fromMap(Map<String, dynamic> map) {
     return ShoppingCartModel(
       id: map['id'],
-      name: map['name'],
       image: map['image'],
       price: map['price'],
       qty: map['qty'],
@@ -68,7 +64,6 @@ class ShoppingCartModel<List> {
 
   ShoppingCartModel copyWith({
     int? id,
-    String? name,
     String? image,
     double? price,
     int? qty,
@@ -79,7 +74,6 @@ class ShoppingCartModel<List> {
   }) {
     return ShoppingCartModel(
       id: id ?? this.id,
-      name: name ?? this.name,
       image: image ?? this.image,
       price: price ?? this.price,
       qty: qty ?? this.qty,

@@ -23,6 +23,8 @@ class _TabHomePageState extends State<TabHomePage>
   final _globalFunction = GlobalFunction();
   final _reusableWidget = ReusableWidget();
 
+  List<CategoryModel> categoryData = [];
+
   int _currentImageSlider = 0;
 
   Color _topIconColor = Colors.white;
@@ -298,7 +300,7 @@ class _TabHomePageState extends State<TabHomePage>
           child: Column(
             children: [
               buildCacheNetworkImage(
-                url: categoryData[index].image,
+                url: categoryData[index].categoryImage,
                 width: 60,
                 height: 60,
                 // color: Colors.transparent,
