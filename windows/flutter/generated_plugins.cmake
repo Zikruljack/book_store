@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus_windows
+  image_compression_flutter
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
